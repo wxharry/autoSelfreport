@@ -84,6 +84,7 @@ class SelfReport(object):
         driver.close()
         print("每日一报已完成")
         print("="*100)
+        file_handle.write(user["username"] + '\n')
         file_handle.write('体温为'+choose+'度\n')
         file_handle.write('已完成每日一报自动填写\n')
         file_handle.write('='*100)
