@@ -17,10 +17,9 @@ class SelfReport(object):
 #         self.driver = webdriver.Chrome()
         with open('userInfo.json', mode="r", encoding="utf-8") as userFile:
             self.userInfo = json.load(userFile)
-        self.username = self.userInfo["userList"][0]["username"]
-        self.password = self.userInfo["userList"][0]["password"]
+        self.user = self.userInfo["userList"]
 
-    def auto_report(self):
+    def auto_report(self,user,type):
         file_handle = open('log.txt', mode='a',encoding='utf-8')
         driver = self.driver
         driver.get('https://selfreport.shu.edu.cn/Default.aspx')
@@ -32,9 +31,9 @@ class SelfReport(object):
         file_handle.write(time.ctime())
         file_handle.write('\n')
         username = driver.find_element_by_id("username")
-        username.send_keys("17120206")
+        username.send_keys(user["username"])
         password = driver.find_element_by_id("password")
-        password.send_keys("1204WXHwxh")
+        password.send_keys(user["password"])
         print("自动填入账号密码完成")
         submit = driver.find_element_by_id("submit")
         submit.click()
@@ -42,8 +41,8 @@ class SelfReport(object):
         
         driver.find_element_by_id("lnkReport").click()
         time.sleep(1)
-
-        driver.find_element_by_id("p1_Button1").click()
+        
+        driver.find_element_by_id(("p1_Button"+str(type))).click()
         time.sleep(1)
         
         promise = driver.find_element_by_id("p1_ChengNuo-inputEl-icon")
@@ -90,9 +89,9 @@ class SelfReport(object):
 
         file_handle.close()
 
-    def run(self):
-        self.auto_report()
-
+    def run(self,type):
+        for tmp in self.user:
+            self.auto_report(tmp,type)
 
 if __name__ == '__main__':
     sp = SelfReport()
