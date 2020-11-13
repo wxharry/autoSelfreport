@@ -9,19 +9,21 @@ from selenium.webdriver.chrome.options import Options
 class SelfReport(object):
 
     def __init__(self):
-        chrome_options = Options()
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument('--headless')
-        self.driver = webdriver.Chrome(executable_path=r'./chromedriver', chrome_options=chrome_options)
+
 #         self.driver = webdriver.Chrome()
         with open('userInfo.json', mode="r", encoding="utf-8") as userFile:
             self.userInfo = json.load(userFile)
         self.user = self.userInfo["userList"]
 
     def auto_report(self,user,type):
+        chrome_options = Options()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--headless')
+        driver = webdriver.Chrome(executable_path=r'./chromedriver', chrome_options=chrome_options)
+        
         file_handle = open('log.txt', mode='a',encoding='utf-8')
-        driver = self.driver
+        # driver = self.driver
         driver.get('https://selfreport.shu.edu.cn/Default.aspx')
         print("="*100)
         file_handle.write('\n')
@@ -95,4 +97,4 @@ class SelfReport(object):
 
 if __name__ == '__main__':
     sp = SelfReport()
-    sp.run()
+    sp.run(2)
