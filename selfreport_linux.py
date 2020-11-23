@@ -33,7 +33,7 @@ class SelfReport(object):
 
         # 登陆
         driver.find_element_by_id("submit").click()
-        # print("进入每日一报网站")
+        print("进入每日一报网站")
         # 进入每日填报
         driver.find_element_by_id("lnkReport").click()
         time.sleep(1)
@@ -102,10 +102,10 @@ class SelfReport(object):
         # print("成功提交")
 
         driver.close()
-        # print("每日一报已完成")
+        print("每日一报已完成")
 
         # 填写日志
-        # print("="*100)
+        print("="*100)
 
     def run(self,type):
         for user in self.userList:
