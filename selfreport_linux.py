@@ -39,7 +39,7 @@ class SelfReport(object):
         time.sleep(1)
 
         # 选择晨报/晚报 晨报p1_Button1 晚报p1_Button2
-        driver.find_element_by_id("p1_Button2").click()
+        driver.find_element_by_id("p1_Button"+type).click()
         time.sleep(1)
 
         # 勾选承诺
