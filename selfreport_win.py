@@ -9,18 +9,16 @@ import json
 class SelfReport(object):
 
     def __init__(self):
+        with open('userInfo.json', mode="r", encoding="utf-8") as userFile:
+            self.userList = json.load(userFile)["userList"]
+
+    def auto_report(self, username, password, type):
         # chrome_options = Options()
         # chrome_options.add_argument('--no-sandbox')
         # chrome_options.add_argument('--disable-dev-shm-usage')
         # chrome_options.add_argument('--headless')
         # self.driver = webdriver.Chrome(executable_path=r'./chromedriver', chrome_options=chrome_options)
         self.driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
-        with open('userInfo.json', mode="r", encoding="utf-8") as userFile:
-            self.userInfo = json.load(userFile)
-        self.username = self.userInfo["userList"][0]["username"]
-        self.password = self.userInfo["userList"][0]["password"]
-
-    def auto_report(self):
 
         # print("="*100)
         # print("已进入填报网站")
@@ -32,8 +30,8 @@ class SelfReport(object):
         driver.get('https://selfreport.shu.edu.cn/Default.aspx')
 
         # 填写用户名和密码
-        driver.find_element_by_id("username").send_keys(self.username)
-        driver.find_element_by_id("password").send_keys(self.password)
+        driver.find_element_by_id("username").send_keys(username)
+        driver.find_element_by_id("password").send_keys(password)
         # print("自动填入账号密码完成")
 
         # 登陆
@@ -108,26 +106,37 @@ class SelfReport(object):
 
         driver.close()
         # print("每日一报已完成")
+
+        # 填写日志
         # print("="*100)
 
 
-    def run(self):
-        self.auto_report()
+    def run(self,type):
+        for user in self.userList:
+            self.auto_report(user["username"], user["password"], type)
+            self.writeLog(user["username"], type)
 
-    def writeLog(self):
-        file_handle = open('log.txt', mode='a',encoding='utf-8')
+
+    def writeLog(self, username, type):
+        file_handle = open('log.txt', mode='r+',encoding='utf-8')
+        old = file_handle.read()
+        file_handle.seek(0)
         file_handle.write('\n')
         file_handle.write('='*100)
         file_handle.write('\n')
         file_handle.write(time.ctime())
         file_handle.write('\n')
-        file_handle.write('用户:', self.username)
+        file_handle.write('用户: '+username)
         file_handle.write('\n')
-        file_handle.write('已完成每日一报自动填写\n')
+        if type == 1:
+            file_handle.write('已完成晨报填写\n')
+        elif type == 2:
+            file_handle.write('已完成晚报填写\n')
         file_handle.write('='*100)
         file_handle.write('\n')
+        file_handle.write(old)
         file_handle.close()
 
 if __name__ == '__main__':
     sp = SelfReport()
-    sp.run()
+    sp.run(1)
