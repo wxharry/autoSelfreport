@@ -55,6 +55,7 @@ class SelfReport(object):
         store = ["36.8","36.9","37","37.1","37.2"]
         i = random.randint(0,4)
         choose = store[i]
+        temperature.clear()
         temperature.send_keys(choose)
         time.sleep(0.5)
 
@@ -71,8 +72,9 @@ class SelfReport(object):
         time.sleep(0.5)
 
         # 具体地址
-        driver.find_element_by_id("p1_XiangXDZ-inputEl").clear()
-        driver.find_element_by_id("p1_XiangXDZ-inputEl").send_keys("新世纪大学村")
+        address = driver.find_element_by_id("p1_XiangXDZ-inputEl")
+        address.clear()
+        address.send_keys("新世纪大学村")
         time.sleep(0.5)
 
         # 当天是否隔离：
@@ -139,4 +141,4 @@ class SelfReport(object):
 
 if __name__ == '__main__':
     sp = SelfReport()
-    sp.run(2)
+    sp.run(1)
