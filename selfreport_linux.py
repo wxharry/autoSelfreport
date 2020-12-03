@@ -85,7 +85,7 @@ class SelfReport(object):
         time.sleep(0.5)
 
         # 当天随身码
-        driver.find_element_by_id("fineui_7-inputEl-icon").click()
+        driver.find_element_by_id("fineui_26-inputEl-icon").click()
         time.sleep(0.5)
 
         # 提交        
