@@ -3,3 +3,4 @@ log.txt
 chromedriver*
 *.deb
 *.log
+*.bak
