@@ -1,7 +1,7 @@
 import Timing
-import selfreport_linux
+import selfreport
 
 if __name__ == '__main__':
-    sp = selfreport_linux.SelfReport()
+    sp = selfreport.SelfReport()
     while True:
         Timing.checktime(sp.run,sp.run)
