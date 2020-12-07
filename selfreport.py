@@ -4,6 +4,7 @@ from selenium import webdriver
 import time
 import random
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import NoSuchElementException
 import json
 import sys
 
@@ -118,8 +119,13 @@ class SelfReport(object):
 
     def run(self,type):
         for user in self.userList:
-            self.auto_report(user["username"], user["password"], type)
-            self.writeLog(user["username"], type)
+            try: 
+                self.auto_report(user["username"], user["password"], type)
+                self.writeLog(user["username"], type)
+            except NoSuchElementException:
+                self.writeError(user["username"], type, "NoSuchElementException")
+            except:
+                self.writeError(user["username"], type, "Other exception")
 
 
     def writeLog(self, username, type):
@@ -133,10 +139,27 @@ class SelfReport(object):
         file_handle.write('\n')
         file_handle.write('用户: '+username)
         file_handle.write('\n')
-        if type == 1:
-            file_handle.write('已完成晨报填写\n')
-        elif type == 2:
-            file_handle.write('已完成晚报填写\n')
+        file_handle.write("晨报" if type == 1 else "晚报", "成功填报")
+        file_handle.write('='*100)
+        file_handle.write('\n')
+        file_handle.write(old)
+        file_handle.close()
+
+    def writeError(self, username, type, errorType):
+        file_handle = open('log.txt', mode='r+',encoding='utf-8')
+        old = file_handle.read()
+        file_handle.seek(0)
+        file_handle.write('\n')
+        file_handle.write('='*100)
+        file_handle.write('\n')
+        file_handle.write(time.ctime())
+        file_handle.write('\n')
+        file_handle.write('用户: '+ username)
+        file_handle.write('\n')
+        file_handle.write("晨报" if type == 1 else "晚报", "出错")
+        file_handle.write('\n')
+        file_handle.write("错误类型:", errorType)
+        file_handle.write('\n')
         file_handle.write('='*100)
         file_handle.write('\n')
         file_handle.write(old)
