@@ -119,12 +119,17 @@ class SelfReport(object):
 
     def run(self,type):
         for user in self.userList:
+            print("获取用户", user["username"])
             try: 
+                print("填报...")
                 self.auto_report(user["username"], user["password"], type)
+                print("写日志...")
                 self.writeLog(user["username"], type)
             except NoSuchElementException:
+                print("出现错误填报失败..")
                 self.writeError(user["username"], type, "NoSuchElementException")
             except:
+                print("出现错误填报失败..")
                 self.writeError(user["username"], type, "Other exception")
 
 
@@ -140,6 +145,7 @@ class SelfReport(object):
         file_handle.write('用户: '+username)
         file_handle.write('\n')
         file_handle.write("晨报成功填报" if type == 1 else "晚报成功填报")
+        file_handle.write('\n')
         file_handle.write('='*100)
         file_handle.write('\n')
         file_handle.write(old)
