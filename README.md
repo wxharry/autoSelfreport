@@ -12,11 +12,13 @@
 
 ## 文件介绍
 
-`selfreport_win.py` 适用于windows操作系统的脚本，运行可以在浏览器中看到操作流程。
+~~`selfreport_win.py` 适用于windows操作系统的脚本，运行可以在浏览器中看到操作流程。~~
 
-`selfreport_linux.py` 适用于linux操作系统的服务器脚本，不会打开网页，便于后台运行。
+~~`selfreport_linux.py` 适用于linux操作系统的服务器脚本，不会打开网页，便于后台运行。~~
 
-`selfreport.ipynb` 便于在服务器进行开发和简单运行的代码文件
+```selfreport.py``` 兼容win32和linux的自动填报脚本
+
+`selfreport.ipynb` ~~便于在服务器进行开发和简单运行的代码文件~~ 用于手动填报
 
 `Timing.py` 计时器，每小时检查一次
 
@@ -72,4 +74,4 @@
 `wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`
 
 ## TODO:
-1. 定时填报判断的条件待优化
+1. 程序报错后发邮件通知管理员
