@@ -162,7 +162,7 @@ class SelfReport(object):
         file_handle.write('\n')
         file_handle.write("晨报出错" if type == 1 else "晚报出错")
         file_handle.write('\n')
-        file_handle.write("错误类型:", errorType)
+        file_handle.write("错误类型:"+ errorType)
         file_handle.write('\n')
         file_handle.write('='*100)
         file_handle.write('\n')
