@@ -11,8 +11,7 @@ import sys
 class SelfReport(object):
 
     def __init__(self):
-        with open('userInfo.json', mode="r", encoding="utf-8") as userFile:
-            self.userList = json.load(userFile)["userList"]
+        pass 
 
     def auto_report(self, username, password, type):
         if "win" in sys.platform:
@@ -23,10 +22,6 @@ class SelfReport(object):
             chrome_options.add_argument('--disable-dev-shm-usage')
             chrome_options.add_argument('--headless')
             self.driver = webdriver.Chrome(executable_path=r'./chromedriver', chrome_options=chrome_options)
-
-        # print("="*100)
-        # print("已进入填报网站")
-
 
         # 脚本主体
         # 请求网页
@@ -102,23 +97,26 @@ class SelfReport(object):
         submit_res.click()
         time.sleep(2)
 
-#         driver.find_elements_by_css_selector(".f-btn.f-noselect.f-state-default.f-corner-all"
-#                                                     ".f-btn-normal.f-btn-icon-no.f-cmp.f-widget"
-#                                                     ".f-toolbar-item")[3].click()
         driver.find_element_by_id("fineui_32").click()
         print(time.ctime())
         time.sleep(5)
         # print("成功提交")
 
         driver.close()
-        # print("每日一报已完成")
 
-        # 填写日志
-        # print("="*100)
 
+    def readUserGroupInfo(self, file="userInfo.json"):
+        """
+        read UserGroupInfo from file;
+        return a dict object
+        """
+        with open(file, mode="r", encoding="utf-8") as userFile:
+            userList = json.load(userFile)["userList"]
+        return userList
 
     def run(self,type):
-        for user in self.userList:
+        userList = self.readUserGroupInfo()
+        for user in userList:
             print("获取用户", user["username"])
             try: 
                 print("填报...")
