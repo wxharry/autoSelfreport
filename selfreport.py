@@ -11,7 +11,7 @@ import sys
 class SelfReport(object):
 
     def __init__(self):
-        pass 
+        self.base_url =  "https://selfreport.shu.edu.cn/"
 
     def auto_report(self, username, password, type):
         if "win" in sys.platform:
@@ -26,7 +26,7 @@ class SelfReport(object):
         # 脚本主体
         # 请求网页
         driver = self.driver
-        driver.get('https://selfreport.shu.edu.cn/Default.aspx')
+        driver.get(self.base_url + 'Default.aspx')
 
         # 填写用户名和密码
         driver.find_element_by_id("username").send_keys(username)
@@ -37,7 +37,10 @@ class SelfReport(object):
         driver.find_element_by_id("submit").click()
         # print("进入每日一报网站")
         # 进入每日填报
-        driver.find_element_by_id("lnkReport").click()
+        # 可能出现需要读消息的情况，用读取href避开
+        lnkReport = driver.find_element_by_id("lnkReport")
+        lnkReport_href = lnkReport.get_attribute("href")
+        driver.get(lnkReport_href)
         time.sleep(1)
 
         # 选择晨报/晚报 晨报p1_Button1 晚报p1_Button2
@@ -118,17 +121,10 @@ class SelfReport(object):
         userList = self.readUserGroupInfo()
         for user in userList:
             print("获取用户", user["username"])
-            try: 
-                print("填报...")
-                self.auto_report(user["username"], user["password"], type)
-                print("写日志...")
-                self.writeLog(user["username"], type)
-            except NoSuchElementException:
-                print("出现错误填报失败..")
-                self.writeError(user["username"], type, "NoSuchElementException")
-            except:
-                print("出现错误填报失败..")
-                self.writeError(user["username"], type, "Other exception")
+            print("填报...")
+            self.auto_report(user["username"], user["password"], type)
+            print("写日志...")
+            self.writeLog(user["username"], type)
 
 
     def writeLog(self, username, type):
@@ -162,7 +158,7 @@ class SelfReport(object):
         file_handle.write('\n')
         file_handle.write("晨报出错" if type == 1 else "晚报出错")
         file_handle.write('\n')
-        file_handle.write("错误类型:", errorType)
+        file_handle.write("错误类型:"+ errorType)
         file_handle.write('\n')
         file_handle.write('='*100)
         file_handle.write('\n')
