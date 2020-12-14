@@ -105,7 +105,7 @@ class SelfReport(object):
         time.sleep(5)
         # print("成功提交")
 
-        driver.close()
+        driver.quit()
 
 
     def readUserGroupInfo(self, file="userInfo.json"):
