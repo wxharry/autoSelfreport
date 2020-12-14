@@ -1,6 +1,15 @@
+# 个人信息
 *.json
 log.txt
-chromedriver*
+
+# 驱动/软件
+chromedriver.exe
 *.deb
+
+# 编译文件
+__pycache__/
+.ipynb_checkpoints/
+
+# 其他
 *.log
 *.bak

@@ -11,8 +11,7 @@ import sys
 class SelfReport(object):
 
     def __init__(self):
-        with open('userInfo.json', mode="r", encoding="utf-8") as userFile:
-            self.userList = json.load(userFile)["userList"]
+        self.base_url =  "https://selfreport.shu.edu.cn/"
 
     def auto_report(self, username, password, type):
         if "win" in sys.platform:
@@ -24,14 +23,10 @@ class SelfReport(object):
             chrome_options.add_argument('--headless')
             self.driver = webdriver.Chrome(executable_path=r'./chromedriver', chrome_options=chrome_options)
 
-        # print("="*100)
-        # print("已进入填报网站")
-
-
         # 脚本主体
         # 请求网页
         driver = self.driver
-        driver.get('https://selfreport.shu.edu.cn/Default.aspx')
+        driver.get(self.base_url + 'Default.aspx')
 
         # 填写用户名和密码
         driver.find_element_by_id("username").send_keys(username)
@@ -42,7 +37,10 @@ class SelfReport(object):
         driver.find_element_by_id("submit").click()
         # print("进入每日一报网站")
         # 进入每日填报
-        driver.find_element_by_id("lnkReport").click()
+        # 可能出现需要读消息的情况，用读取href避开
+        lnkReport = driver.find_element_by_id("lnkReport")
+        lnkReport_href = lnkReport.get_attribute("href")
+        driver.get(lnkReport_href)
         time.sleep(1)
 
         # 选择晨报/晚报 晨报p1_Button1 晚报p1_Button2
@@ -102,30 +100,31 @@ class SelfReport(object):
         submit_res.click()
         time.sleep(2)
 
-#         driver.find_elements_by_css_selector(".f-btn.f-noselect.f-state-default.f-corner-all"
-#                                                     ".f-btn-normal.f-btn-icon-no.f-cmp.f-widget"
-#                                                     ".f-toolbar-item")[3].click()
         driver.find_element_by_id("fineui_32").click()
         print(time.ctime())
         time.sleep(5)
         # print("成功提交")
 
-        driver.close()
-        # print("每日一报已完成")
+        driver.quit()
 
-        # 填写日志
-        # print("="*100)
 
+    def readUserGroupInfo(self, file="userInfo.json"):
+        """
+        read UserGroupInfo from file;
+        return a dict object
+        """
+        with open(file, mode="r", encoding="utf-8") as userFile:
+            userList = json.load(userFile)["userList"]
+        return userList
 
     def run(self,type):
-        for user in self.userList:
-            try: 
-                self.auto_report(user["username"], user["password"], type)
-                self.writeLog(user["username"], type)
-            except NoSuchElementException:
-                self.writeError(user["username"], type, "NoSuchElementException")
-            except:
-                self.writeError(user["username"], type, "Other exception")
+        userList = self.readUserGroupInfo()
+        for user in userList:
+            print("获取用户", user["username"])
+            print("填报...")
+            self.auto_report(user["username"], user["password"], type)
+            print("写日志...")
+            self.writeLog(user["username"], type)
 
 
     def writeLog(self, username, type):
@@ -139,7 +138,8 @@ class SelfReport(object):
         file_handle.write('\n')
         file_handle.write('用户: '+username)
         file_handle.write('\n')
-        file_handle.write("晨报" if type == 1 else "晚报", "成功填报")
+        file_handle.write("晨报成功填报" if type == 1 else "晚报成功填报")
+        file_handle.write('\n')
         file_handle.write('='*100)
         file_handle.write('\n')
         file_handle.write(old)
@@ -156,9 +156,9 @@ class SelfReport(object):
         file_handle.write('\n')
         file_handle.write('用户: '+ username)
         file_handle.write('\n')
-        file_handle.write("晨报" if type == 1 else "晚报", "出错")
+        file_handle.write("晨报出错" if type == 1 else "晚报出错")
         file_handle.write('\n')
-        file_handle.write("错误类型:", errorType)
+        file_handle.write("错误类型:"+ errorType)
         file_handle.write('\n')
         file_handle.write('='*100)
         file_handle.write('\n')
