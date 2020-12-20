@@ -30,8 +30,8 @@
 
 ### 下载chromedriver
 根据当前操作系统的类型和google-chrome版本选择对应的驱动下载，放在当前文件夹即可。
-> chromedriver下载地址：
-> http://chromedriver.storage.googleapis.com/index.html
+> chromedriver下载地址：  
+> http://chromedriver.storage.googleapis.com/index.html  
 > https://npm.taobao.org/mirrors/chromedriver/
 
 

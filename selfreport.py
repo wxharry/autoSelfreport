@@ -16,6 +16,7 @@ class SelfReport(object):
     def auto_report(self, username, password, type):
         if "win" in sys.platform:
             self.driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
+            # self.driver = webdriver.Chrome(executable_path=r'E:/Google/Chrome/Application/chromedriver.exe')
         elif "linux" in sys.platform:
             chrome_options = Options()
             chrome_options.add_argument('--no-sandbox')
@@ -79,16 +80,24 @@ class SelfReport(object):
         address.send_keys("新世纪大学村")
         time.sleep(0.5)
 
-        # 当天是否隔离：
-        driver.find_element_by_id("fineui_15-inputEl-icon").click()
+        # 中高风险地区逗留：
+        driver.find_element_by_id("fineui_11-inputEl-icon").click()
         time.sleep(0.5)
 
-        # 11月09日至11月23日是否与来自中高风险地区发热人员密切接触
+        # 上海同住人员是否有12月06日至12月20日来自中高风险地区
+        driver.find_element_by_id("fineui_13-inputEl-icon").click()
+        time.sleep(0.5)
+
+        # 12月06日至12月20日是否与来自中高风险地区发热人员密切接触
+        driver.find_element_by_id("fineui_17-inputEl-icon").click()
+        time.sleep(0.5)
+
+        # 12月06日至12月20日是否乘坐公共交通途径中高风险地区
+        driver.find_element_by_id("fineui_17-inputEl-icon").click()
+        time.sleep(0.5)
+
+        # 当天是否隔离
         driver.find_element_by_id("fineui_21-inputEl-icon").click()
-        time.sleep(0.5)
-
-        # 11月09日至11月23日是否乘坐公共交通途径中高风险地区
-        driver.find_element_by_id("fineui_23-inputEl-icon").click()
         time.sleep(0.5)
 
         # 当天随身码
@@ -167,4 +176,4 @@ class SelfReport(object):
 
 if __name__ == '__main__':
     sp = SelfReport()
-    sp.run(2)
+    sp.run(1)
