@@ -164,7 +164,8 @@ class SelfReport(object):
             errorFlag = self.auto_report(user["username"], user["password"], type)
             print("写日志...\n")
             self.writeLog(user["username"], type, errorFlag)
-        self.writeError(type)
+        if self.warn_msg != {}:
+            self.writeError(type)
 
     def writeLog(self, username, type,errorFlag):
         file_handle = open('log.txt', mode='r+',encoding='utf-8')
