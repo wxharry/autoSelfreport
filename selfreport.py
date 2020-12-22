@@ -17,13 +17,13 @@ class SelfReport(object):
 
     def __init__(self):
         self.base_url =  "https://selfreport.shu.edu.cn/"
-        self.warn_msg = {}
+        self.warn_msg = {}  #错误信息字典 {msg:[username, ...], ...}
 
     def auto_report(self, username, password, type):
-        errorFlag = True
+        errorFlag = True   #返回填报情况失败(False)或成功(True)
         if "win" in sys.platform:
-            # self.driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
-            self.driver = webdriver.Chrome(executable_path=r'E:/Google/Chrome/Application/chromedriver.exe')
+            self.driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
+            # self.driver = webdriver.Chrome(executable_path=r'E:/Google/Chrome/Application/chromedriver.exe')
         elif "linux" in sys.platform:
             chrome_options = Options()
             chrome_options.add_argument('--no-sandbox')
@@ -32,19 +32,19 @@ class SelfReport(object):
             self.driver = webdriver.Chrome(executable_path=r'./chromedriver', chrome_options=chrome_options)
 
         # 脚本主体
-        # 请求网页
         driver = self.driver
         try:
+            # 请求网页
             driver.get(self.base_url + 'Default.aspx')
-            WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.ID, "username")))
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "username")))
+
             # 填写用户名和密码
-            driver.find_element_by_id("username1").send_keys(username)
+            driver.find_element_by_id("username").send_keys(username)
             driver.find_element_by_id("password").send_keys(password)
-            # print("自动填入账号密码完成")
 
             # 登陆
             driver.find_element_by_id("submit").click()
-            # print("进入每日一报网站")
+
             # 进入每日填报
             # 可能出现需要读消息的情况，用读取href避开
             lnkReport = driver.find_element_by_id("lnkReport")
