@@ -101,7 +101,7 @@ class SelfReport(object):
             time.sleep(0.5)
 
             # 12月06日至12月20日是否乘坐公共交通途径中高风险地区
-            driver.find_element_by_id("fineui_17-inputEl-icon").click()
+            driver.find_element_by_id("fineui_19-inputEl-icon").click()
             time.sleep(0.5)
 
             # 当天是否隔离
