@@ -10,6 +10,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import json
 import sys
 
+from sendEmail import email
+
 from selenium.webdriver.support.wait import WebDriverWait
 
 
@@ -124,7 +126,7 @@ class SelfReport(object):
 
         # 网络连接超时或者网址错误
         except TimeoutException:
-            msg = "base_url error OR timeout"
+            msg = "base_url error OR timeout\n"
             userArr = self.warn_msg.get(msg, [])
             userArr.append(username)
             self.warn_msg[msg] = userArr
@@ -165,6 +167,17 @@ class SelfReport(object):
             self.writeLog(user["username"], type, errorFlag)
         if self.warn_msg != {}:
             self.writeError(type)
+            #发送邮件
+            mail = email()
+            #编辑邮件标题和内容
+            subject = ("晨报出错" if type == 1 else "晚报出错")
+            content = ""
+            for error in self.warn_msg:
+                content += error
+                for user in self.warn_msg[error]:
+                    content = content + user + "\n"
+            #发送
+            mail.send(subject, content)
 
     def writeLog(self, username, type, errorFlag):
         file_handle = open('log.txt', mode='r+',encoding='utf-8')
