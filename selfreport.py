@@ -145,7 +145,6 @@ class SelfReport(object):
             driver.quit()
             return errorFlag
 
-
     def readUserGroupInfo(self, file="userInfo.json"):
         """
         read UserGroupInfo from file;
@@ -167,7 +166,7 @@ class SelfReport(object):
         if self.warn_msg != {}:
             self.writeError(type)
 
-    def writeLog(self, username, type,errorFlag):
+    def writeLog(self, username, type, errorFlag):
         file_handle = open('log.txt', mode='r+',encoding='utf-8')
         old = file_handle.read()
         file_handle.seek(0)
