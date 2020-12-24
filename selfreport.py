@@ -119,10 +119,18 @@ class SelfReport(object):
             submit_res.click()
             time.sleep(2)
 
+            # 确认提交
             driver.find_element_by_id("fineui_32").click()
             print(time.ctime())
             time.sleep(5)
-            # print("成功提交")
+
+            # 检查是否出现 '正确提交' 提示框
+            class_name = "f-messagebox-message"
+            locator = (By.CLASS_NAME, class_name)
+            content = "提交成功"
+            errorFlag = EC.text_to_be_present_in_element(locator, content)(driver)
+            if not errorFlag:
+                raise Exception("提交失败:"+driver.find_element_by_class_name(class_name).text+"\n")
 
         # 网络连接超时或者网址错误
         except TimeoutException:
@@ -133,7 +141,7 @@ class SelfReport(object):
             errorFlag = False
             print(self.warn_msg)
 
-        #找不到对应元素
+        # 找不到对应元素  在self.warn_msg中写入异常信息
         except Exception as msg:
             msg = str(msg)
             userArr = self.warn_msg.get(msg,[])
@@ -141,8 +149,12 @@ class SelfReport(object):
             self.warn_msg[msg] = userArr
             errorFlag = False
             print(self.warn_msg)
+
+        # 未发生异常
         else:
             errorFlag = True
+
+        # 关闭网页
         finally:
             driver.quit()
             return errorFlag
@@ -165,6 +177,7 @@ class SelfReport(object):
             errorFlag = self.auto_report(user["username"], user["password"], type)
             print("写日志...\n")
             self.writeLog(user["username"], type, errorFlag)
+
         if self.warn_msg != {}:
             self.writeError(type)
             #发送邮件
@@ -219,6 +232,7 @@ class SelfReport(object):
         file_handle.write('\n')
         file_handle.write(old)
         file_handle.close()
+
 
 if __name__ == '__main__':
     sp = SelfReport()
