@@ -10,7 +10,7 @@ class email:
     def __init__(self):
         self.msg_from = '962655354@qq.com'  # 发送方邮箱
         self.password = ''
-        with open(r'./userinfo.json',mode='r',encoding='utf-8') as userFile:
+        with open(r'./userInfo.json',mode='r',encoding='utf-8') as userFile:
             self.password = json.load(userFile)["emailPassword"]
         self.msg_to = ['962655354@qq.com', '1617943934@qq.com']  # 收件人邮箱
         # msg_to = '616564099@qq.com'  # 收件人邮箱

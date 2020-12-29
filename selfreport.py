@@ -115,8 +115,7 @@ class SelfReport(object):
             time.sleep(0.5)
 
             # 提交
-            submit_res = driver.find_element_by_id("p1_ctl00_btnSubmit")
-            submit_res.click()
+            driver.find_element_by_id("p1_ctl00_btnSubmit").click()
             time.sleep(2)
 
             # 确认提交
@@ -168,15 +167,25 @@ class SelfReport(object):
             userList = json.load(userFile)["userList"]
         return userList
 
-    def run(self,type):
+    def run(self,type,intervalList):
+        # 记录开始时间
+        recordtime = time.time()
+        print(time.localtime(time.time()))
+        # 初始化
         self.__init__()
         userList = self.readUserGroupInfo()
-        for user in userList:
-            print("获取用户", user["username"])
+        # 计算每个用户开始时间
+        for user in zip(userList,intervalList):
+            # user[1] 对应用户的时间偏移量
+            starttime = recordtime + user[1]
+            while starttime > time.time():
+                time.sleep(1)
+                # print("sleep……")
+            print("获取用户", user[0]["username"])
             print("填报...")
-            errorFlag = self.auto_report(user["username"], user["password"], type)
+            errorFlag = self.auto_report(user[0]["username"], user[0]["password"], type)
             print("写日志...\n")
-            self.writeLog(user["username"], type, errorFlag)
+            self.writeLog(user[0]["username"], type, errorFlag)
 
         if self.warn_msg != {}:
             self.writeError(type)
