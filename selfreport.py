@@ -24,8 +24,8 @@ class SelfReport(object):
     def auto_report(self, username, password, type):
         errorFlag = True   #返回填报情况失败(False)或成功(True)
         if "win" in sys.platform:
-            # self.driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
-            self.driver = webdriver.Chrome(executable_path=r'E:/Google/Chrome/Application/chromedriver.exe')
+            self.driver = webdriver.Chrome(executable_path=r'./chromedriver.exe')
+            # self.driver = webdriver.Chrome(executable_path=r'E:/Google/Chrome/Application/chromedriver.exe')
         elif "linux" in sys.platform:
             chrome_options = Options()
             chrome_options.add_argument('--no-sandbox')
