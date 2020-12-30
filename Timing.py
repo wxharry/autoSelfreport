@@ -11,9 +11,11 @@ class timing:
     def setEffectTime(self,start,end):
         self.startList = start
         self.endList = end
+        self.reported_flag = [False] * start.__len__()
 
     # 设置随机时间间隔
     def setInterval(self, minduration=60):
+        self.minduration = minduration
         self.intervalList = []
         random.seed()
         for duration in zip(self.startList,self.endList):
@@ -21,14 +23,17 @@ class timing:
             endtime = time.mktime(time.strptime("2000-"+duration[1], "%Y-%H:%M"))
             interval = endtime - starttime
             # print(interval)
+
             # 人数 * 最短时间 > 总时间间隔  无法完成运行
             if self.userNum * minduration > interval:
                 raise Exception("错误:人数过多，时间间隔过短")
+
             # resttime = 总时间间隔 - 人数 * 最短时间 是可随机分配的时间
             resttime = interval - self.userNum * minduration
+
             # condition1 可分配时间秒数 < 人数
             if resttime < self.userNum:
-                addlist = [0 for i in range(self.userNum)] # 时间点偏移量(以最小时间间隔为基准)
+                addlist = [0] * self.userNum # 时间点偏移量(以最小时间间隔为基准)
                 for i in range(int(resttime)):
                     index = random.randint(0,self.userNum-1)
                     addlist[index]+=1
@@ -40,6 +45,7 @@ class timing:
                     suminterval += minduration
                 self.intervalList.append(intervallist)
                 # print(self.intervalList)
+
             # condition2 可分配时间秒数 >= 人数
             else:
                 addlist = [s for s in range(int(resttime))]
@@ -51,15 +57,21 @@ class timing:
             print(self.intervalList)
 
     # 监听时间，在确定区间自动填报
-    def checkTime(self,func,sleeptime):
+    def checkTime(self,func,sleeptime=10):
         hour = time.localtime().tm_hour
         minute = time.localtime().tm_min
+        # 零点更新时间间隔，刷新系统reported_flag[]以及每个用户mor_report_flag, eve_report_flag
+        if hour == 0 and minute == 0:
+            self.setInterval(self.minduration)
+            self.reported_flag = [False] * self.reported_flag.__len__()
         index = 0
+        # 检查starttime执行填报程序
         for start in self.startList:
             starttime = time.strptime(start, "%H:%M")
             index += 1
-            if starttime.tm_hour == hour and starttime.tm_min == minute:
+            if starttime.tm_hour == hour and starttime.tm_min == minute and not self.reported_flag[index-1]:
                 func(index,self.getIntervalList()[index-1])
+                self.reported_flag[index-1] = True
         # 刷新间隔
         time.sleep(sleeptime)
 
@@ -67,11 +79,14 @@ class timing:
     def getIntervalList(self):
         return self.intervalList
 
+
 if __name__ == '__main__':
-    a = ["7:00", "20:00"]
-    b = ["7:03", "22:00"]
+    a = ["7:00", "00:19"]
+    b = ["7:03", "00:22"]
     sp = SelfReport()
     userList = sp.readUserGroupInfo()
     timer = timing(userList)
     timer.setEffectTime(a,b)
     timer.setInterval()
+    while True:
+        timer.checkTime(sp.run,5)
