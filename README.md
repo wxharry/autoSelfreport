@@ -18,7 +18,7 @@
 
 ```selfreport.py``` 兼容win32和linux的自动填报脚本
 
-`selfreport.ipynb` ~~便于在服务器进行开发和简单运行的代码文件~~ 用于手动填报
+~~`selfreport.ipynb` 便于在服务器进行开发和简单运行的代码文件 用于手动填报~~
 
 `Timing.py` 计时器，每小时检查一次
 
@@ -74,4 +74,4 @@
 `wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`
 
 ## TODO:
-1. 程序报错后发邮件通知管理员
+1. 结合前后端开发
