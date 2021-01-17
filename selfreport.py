@@ -90,28 +90,28 @@ class SelfReport(object):
             address.send_keys("新世纪大学村")
             time.sleep(0.5)
 
-            # 中高风险地区逗留：
-            driver.find_element_by_id("fineui_11-inputEl-icon").click()
+            # 01月04日至01月18日是否在中高风险地区逗留：
+            driver.find_element_by_id("fineui_12-inputEl-icon").click()
             time.sleep(0.5)
 
-            # 上海同住人员是否有12月06日至12月20日来自中高风险地区
-            driver.find_element_by_id("fineui_13-inputEl-icon").click()
+            # 上海同住人员是否有01月04日至01月18日来自中高风险地区的人：
+            driver.find_element_by_id("fineui_14-inputEl-icon").click()
             time.sleep(0.5)
 
-            # 12月06日至12月20日是否与来自中高风险地区发热人员密切接触
-            driver.find_element_by_id("fineui_17-inputEl-icon").click()
+            # 01月04日至01月18日是否与来自中高风险地区发热人员密切接触：
+            driver.find_element_by_id("fineui_18-inputEl-icon").click()
             time.sleep(0.5)
 
-            # 12月06日至12月20日是否乘坐公共交通途径中高风险地区
-            driver.find_element_by_id("fineui_19-inputEl-icon").click()
+            # 01月04日至01月18日是否乘坐公共交通途径中高风险地区
+            driver.find_element_by_id("fineui_20-inputEl-icon").click()
             time.sleep(0.5)
 
             # 当天是否隔离
-            driver.find_element_by_id("fineui_21-inputEl-icon").click()
+            driver.find_element_by_id("fineui_22-inputEl-icon").click()
             time.sleep(0.5)
 
             # 当天随身码
-            driver.find_element_by_id("fineui_26-inputEl-icon").click()
+            driver.find_element_by_id("fineui_27-inputEl-icon").click()
             time.sleep(0.5)
 
             # 提交
@@ -119,7 +119,7 @@ class SelfReport(object):
             time.sleep(2)
 
             # 确认提交
-            driver.find_element_by_id("fineui_32").click()
+            driver.find_element_by_id("fineui_33").click()
             print(time.ctime())
             time.sleep(5)
 
@@ -245,4 +245,4 @@ class SelfReport(object):
 
 if __name__ == '__main__':
     sp = SelfReport()
-    sp.run(1)
+    sp.auto_report('17120206','1204WXHwxh', 2)
