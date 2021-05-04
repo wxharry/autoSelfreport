@@ -20,7 +20,7 @@
 
 ~~`selfreport.ipynb` 便于在服务器进行开发和简单运行的代码文件 用于手动填报~~
 
-`Timing.py` 计时器，每小时检查一次(此版本不用，~~因为看不懂，~~使用schedule外部库代替)
+`Timing.py` 计时器，每小时检查一次(此版本不用，~~因为看不懂，~~ 使用schedule外部库代替)
 
 `log.txt` 日志文件，记录成功填报的用户名和时间
 
@@ -44,10 +44,8 @@
 ```
 # userInfo.json
 {
-    "userList":[{
-        "username": "YourUsername",
-        "password": "YourPassword"
-    }]
+    "username": "YourUsername",
+    "password": "YourPassword"
 }
 ```
 
