@@ -1,6 +1,6 @@
 # autoSelfreport
 
-上海大学新冠疫情自动填报脚本
+上海大学新冠疫情自动填报脚本(个人精简版)
 
 
 
@@ -20,7 +20,7 @@
 
 ~~`selfreport.ipynb` 便于在服务器进行开发和简单运行的代码文件 用于手动填报~~
 
-`Timing.py` 计时器，每小时检查一次
+`Timing.py` 计时器，每小时检查一次(此版本不用，~~因为看不懂，~~使用schedule外部库代替)
 
 `log.txt` 日志文件，记录成功填报的用户名和时间
 
@@ -34,7 +34,8 @@
 > http://chromedriver.storage.googleapis.com/index.html  
 > https://npm.taobao.org/mirrors/chromedriver/
 
-
+### 安装依赖
+`pip install -r requirements.txt`
 
 ### 新建登陆信息表
 
@@ -74,4 +75,7 @@
 `wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`
 
 ## TODO:
-1. 结合前后端开发
+1. 部署GitHub action
+2. 邮件系统还没看
+3. 日志如何填报
+4. 改变填报内容
