@@ -67,11 +67,11 @@ class SelfReport(object):
             self.dayDream()
 
             # 勾选住校：
-            driver.find_element_by_id("fineui_10-inputEl-icon").click()
+            driver.find_element_by_id("fineui_9-inputEl-icon").click()
             self.dayDream()
 
             # 勾选是家庭地址
-            driver.find_element_by_id("fineui_11-inputEl-icon").click()
+            driver.find_element_by_id("fineui_12-inputEl-icon").click()
             self.dayDream()
             
             # 提交
@@ -129,8 +129,8 @@ class SelfReport(object):
         return user
 
     def schedule(self, user):
-        # schedule.every().day.at("10:00").do(self.auto_report(user.username, user.password))
-        schedule.every(20).seconds.do(print, user['username'], user['password'])
+        schedule.every().day.at("9:00").do(self.auto_report(user.username, user.password))
+        # schedule.every(20).seconds.do(print, user['username'], user['password'])
         # self.auto_report(user['username'], user['password'])
             
     def run(self):
