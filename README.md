@@ -1,4 +1,4 @@
-
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/wxharry/autoSelfreport)
 
 
 
@@ -21,14 +21,6 @@
 `Timing.py` 计时器，每小时检查一次(此版本不用，~~因为看不懂，~~ 使用schedule外部库代替)
 
 `log.txt` 日志文件，记录成功填报的用户名和时间
-
-~~`selfreport_win.py` 适用于windows操作系统的脚本，运行可以在浏览器中看到操作流程。~~
-
-~~`selfreport_linux.py` 适用于linux操作系统的服务器脚本，不会打开网页，便于后台运行。~~
-
-~~`selfreport.ipynb` 便于在服务器进行开发和简单运行的代码文件 用于手动填报~~
-
-
 
 
 
@@ -60,15 +52,6 @@ yum install -y google-chrome-stable
 
 yum install -y google-chrome-stable --nogpgcheck # 国内如果无法使用添加参数安装
 ```
-
-~~对于谷歌Chrome32位版本，使用如下链接：~~
-
-~~`wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb`~~
-
-~~对于64位版本可以使用如下链接下载：~~
-
-~~`wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`~~
-
 
 
 ### 查看google-chrome版本
@@ -121,11 +104,3 @@ yum install -y google-chrome-stable --nogpgcheck # 国内如果无法使用添�
 ###  运行程序
 
 在终端运行`python main.py`即可启动自动填报系统。
-
-
-
-## 其他
-
-
-## TODO:
-2. 面向填报历史的填报
